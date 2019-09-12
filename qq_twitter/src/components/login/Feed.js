@@ -1,0 +1,26 @@
+import React from 'react'
+
+class Feed extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: "",
+            password: "",
+        }
+
+    }
+
+
+    render() {
+        return (
+            <div>
+
+                <h1>Feed</h1>
+            </div>
+        )
+    }
+
+
+}
+
+export default Feed
