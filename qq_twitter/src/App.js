@@ -4,10 +4,10 @@ import Login from './components/login/Auth'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="App-div">
+      <div>
         <Login></Login>
-      </header>
+      </div>
     </div>
   );
 }

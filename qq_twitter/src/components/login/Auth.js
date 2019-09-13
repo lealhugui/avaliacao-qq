@@ -1,8 +1,9 @@
 import React from 'react'
+import './Auth.css'
 import {
     BrowserRouter as Router, Route, Redirect, withRouter
 } from 'react-router-dom'
-import Feed from "./Feed"
+import Feed from "../feed/Feed"
 
 const Authentication = {
     isAuthenticated: false,
@@ -25,7 +26,8 @@ class Login extends React.Component {
         password: "",
     }
     login = () => {
-        if (this.state.user === "Filipe") {
+        let user = 'fnunez'
+        if (this.state.user === user) {
             Authentication.setAuthentication(() => {
                 this.setState(() => ({
                     redirect: true
@@ -40,8 +42,8 @@ class Login extends React.Component {
 
 
         return (
-            < div >
-                <div>
+            < div className="Login">
+                <div >
                     <input type="text"
                         value={this.state.value}
                         onChange={event => this.setState({ user: event.target.value })}></input>
@@ -63,18 +65,23 @@ const LoginSucess = withRouter(() => (
     Authentication.isAuthenticated ? (
         < Feed />
     ) : (
-            <p>Por Favor Logue No QQ_Twitter</p>
+            <div className="Login">
+
+                <p>Por Favor Logue No QQ_Twitter</p>
+            </div>
         )
 ))
 
 export default function AuthExample() {
     return (
-        <Router>
-            <LoginSucess >
-                {/* Renderizando página depois do login com sucesso*/}
-                <link to='/feed'></link>
-            </LoginSucess>
-            <Route path='/' component={Login} />
-        </Router>
+        <div>
+            <Router>
+                <LoginSucess >
+                    {/* Renderizando página depois do login com sucesso*/}
+                    <link to='/feed'></link>
+                </LoginSucess>
+                <Route path='/' component={Login} />
+            </Router>
+        </div>
     )
 }

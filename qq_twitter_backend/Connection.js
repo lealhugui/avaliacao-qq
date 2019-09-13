@@ -1,5 +1,7 @@
-var express = require(`express`)
-var app = express()
+// EXPRESS
+const express = require(`express`)
+const app = express()
+// POSTGRES
 const { Client } = require(`pg`);
 const client = new Client({
     user: "postgres",
@@ -9,7 +11,7 @@ const client = new Client({
     database: `qq_twitter`
 });
 
-
+// Função para reutilização de codigo da conexão com o db
 async function connect() {
     try {
         await client.connect()
@@ -19,7 +21,7 @@ async function connect() {
         console.error(`Failed Connection ${e}`)
     }
 }
-
+// Função para reutilização de codigo da disconexão do db
 async function disconnect() {
     try {
         await client.end()
@@ -29,39 +31,42 @@ async function disconnect() {
     }
 }
 
-async function query(table, row) {
+async function queryLoginInfo(table, row) {
     try {
-        return result = await client.query(`select * from ${table} where login = $1`, [row])
+        const result = await client.query(`select * from ${table} where login = $1`, [row])
+        return result.rows
     }
     catch (e) {
-        console.error(`Failed to query ${e}`)
+        return []
     }
 }
 
-async function QueryLoginData(login) {
-    await connect()
-    var result = await query(`user_data`, login)
-    console.table(result.rows)
-    await disconnect()
-    return result
-}
+// async function QueryLoginData(login) {
+//     await connect()
+//     var result = await query(`user_data`, login)
+//     // console.log(result.rows)
+//     await disconnect()
+//     return result
+// }
 
-var result = QueryLoginData('fnunez')
-result.then(function (data) {
-    var x = data.rows[0].login
-    apiLogRequest(x)
+// var result = QueryLoginData('fnunez')
+// result.then(function (data) {
+//     var x = data.rows[0].login
+//     apiLogRequest(x)
+// })
+
+
+
+connect()
+app.get(`/`, async function (req, res) {
+    const rows = await queryLoginInfo('user_data', 'fnunez')
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(rows))
+})
+var server = app.listen(8080, function () {
+    var host = server.address().address
+    var port = server.address().port
+
+    console.log("Example app listening at http://%s:%s", host, port)
 })
 
-
-function apiLogRequest(rest) {
-    app.get(`/`, function (req, res) {
-        res.send(rest)
-    })
-    var server = app.listen(8081, function () {
-        var host = server.address().address
-        var port = server.address().port
-
-        console.log("Example app listening at http://%s:%s", host, port)
-    })
-
-}
