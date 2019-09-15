@@ -9,21 +9,24 @@
 }
 
 .tweet-box {
-
     display: flex;
     flex-direction: column;
     width: 566px;
     height: 170px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-    background-color: #15202a;
+    background-color: #847cb2;
     margin-left: 25rem;
     margin-bottom: 0.1rem;
     transition: 0.5s background-color
   }
   
   .tweet-box:hover { 
-    background-color: #0c151d;
+    background-color: #9891bf;
     border: #ffffff;
+  }
+  .tweet-box img{
+    opacity: 1;
+    transition: 0.5s opacity
   }
   
   .picture {
@@ -65,7 +68,8 @@
   font-stretch: normal;
   line-height: normal;
   letter-spacing: -0.6px;
-  color: #75797d;
+  color: #28253e;
+  font-weight: bold;
   }
   
   .tweet{

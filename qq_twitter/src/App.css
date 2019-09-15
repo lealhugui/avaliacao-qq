@@ -1,5 +1,6 @@
 .App-div {
-  background-color: #282c34;
+  /* background-color: 282c34; */
+  background-color: #aca7cb;
  /* display: flex; */
   min-height: 100vh;
   /* display: flex;
@@ -7,5 +8,31 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white; */
+}
+
+.logo{
+  
+  flex-direction: initial;
+  margin-top: 2rem;
+  margin-left: 2rem;
+}
+
+
+
+.logo1{
+  margin-left: 5rem;
+  margin-top: 10rem;
+  width: 5%;
+  height: 5%;
+}
+  
+  
+ 
+img{
+  opacity: 0.5;
+  transition: 1s opacity
+}
+img:hover{
+  opacity: 1;
 }
 

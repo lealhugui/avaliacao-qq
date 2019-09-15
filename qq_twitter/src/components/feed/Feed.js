@@ -23,7 +23,8 @@ class Feed extends React.Component {
         var a = 'fnunez'
         return (
             <div>
-                <div>
+                <div className="search-bar">
+                    <p>Pesquisar Usuários</p>
                     <Search
                         search={event => this.setState({ search: event.target.value })}
                     />

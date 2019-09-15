@@ -3,3 +3,16 @@
     flex-direction: column;
     margin-bottom: 10px;
   }
+
+  .search-bar{
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 3rem;
+  }
+  .search-bar p{
+    margin-top: 7rem;
+    color: #847cb2;
+    font-weight: bold;
+  }
+  .search-bar input{
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);}

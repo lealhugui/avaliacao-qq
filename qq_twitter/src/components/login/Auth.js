@@ -20,13 +20,13 @@ const Authentication = {
 }
 
 async function loginRequest(user, password) {
-    console.log(user)
-    var bodyData = JSON.stringify({
+    const bodyData = JSON.stringify({
         'login': user,
         'password': password
     })
-    // console.log(bodyData)
-    var request = new Request('http://localhost:8080/login', {
+
+    // making the post request
+    const request = new Request('http://localhost:8080/login', {
         body: bodyData,
         method: 'post',
         headers: {
@@ -47,21 +47,23 @@ class Login extends React.Component {
 
     login = () => {
         //Getting the Promise as unresolved
-        var user = loginRequest(this.state.user, this.state.password)
+        var requestPromise = loginRequest(this.state.user, this.state.password)
+
+
         // thisState = this so I can use inside .then in the promise
         const thisState = this
-        user.then((response) => response.json())
+
+        // resolving the promise
+        requestPromise
+            .then((response) => response.json())
             .then(function (data) {
-                // console.log("DATA", data.authenticated)
-                // return data[Object.keys(data)[0]]; //return true or false
                 Authentication.setAuthentication(() => {
                     thisState.setState(() => ({
                         redirect: data.authenticated
                     }))
                 })
-
             })
-    }
+    } //end of login
 
 
 
@@ -74,14 +76,14 @@ class Login extends React.Component {
 
         return (
             < div className="Login">
-                <div >
+                <div>
                     <input type="text"
                         value={this.state.value}
                         onChange={event => this.setState({ user: event.target.value })}></input>
                 </div>
 
                 <div>
-                    <input type="text"
+                    <input type="password"
                         value={this.state.value}
                         onChange={event => this.setState({ password: event.target.value })}></input>
                 </div>
@@ -98,9 +100,10 @@ const LoginSucess = withRouter(() => (
     Authentication.isAuthenticated ? (
         < Feed />
     ) : (
-            <div className="Login">
-
-                <p>Por Favor Logue No QQ_Twitter</p>
+            <div>
+                <div className="Login">
+                    <p>Por Favor Logue No QQ_Twitter</p>
+                </div>
             </div>
         )
 ))
