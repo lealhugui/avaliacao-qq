@@ -36,7 +36,7 @@ const Image = (props) => {
 const TweetText = (props) => {
     return (
         <div className="tweet">
-            {props.tweet_text}
+            {props.tweet}
         </div>
     )
 }
@@ -44,13 +44,15 @@ const TweetText = (props) => {
 const TweetBody = (props) => {
     return (
         <TweetBox>
-            <Image image={props.image} />
-            <div className="body">
-                <div className="inner-body">
-                    <Name name={props.name} />
-                    <Handle handle={props.handle} />
+            <div className="inner-body">
+                <Image image={props.image} />
+                <div className="body">
+                    <div className="inner-body">
+                        <Name name={props.name} />
+                        <Handle handle={props.handle} />
+                    </div>
+                    <TweetText tweet={props.tweet} />
                 </div>
-                <TweetText tweet_text={props.tweet_text} />
             </div>
         </TweetBox>
     )
