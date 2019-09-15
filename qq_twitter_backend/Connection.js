@@ -1,17 +1,16 @@
 // EXPRESS
-const express = require(`express`)
+const express = require(`express`), Pool = require('pg-pool'), cors = require('cors');
 var bodyParser = require('body-parser')
 
 const app = express()
 // app.use(express.json())
 // app.use(express.urlencoded())
-
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json({ type: 'application/json' }))
 
 // POSTGRES
 // const { Client } = require(`pg`);
-const Pool = require('pg-pool');
 // const client = new Client({
 //     user: "postgres",
 //     password: "entersandman",
@@ -85,12 +84,12 @@ const pool = new Pool({
 
 app.post(`/login`, function (req, res) {
 
-    // const a = JSON.stringify(req.body.login)
+    const a = JSON.stringify(req.body)
 
     // console.log("=============", req.body)
     // res.json({ requestBody: req.body })
 
-    // console.log('a', a)
+    console.log('a', a)
 
     // const request = req
 
@@ -108,13 +107,13 @@ app.post(`/login`, function (req, res) {
         client.query(`select * from user_data where login = $1`, [userLogin]).then(result => {
             // console.log("result", result)
             // const [a] = result.rows
-            // console.log(a.login)
             const [user] = result.rows
-            // console.log(user.password)
+            console.log(user.password)
             // hash
             if (user.password == userPassword) {
                 // cria um token aleatorio, grava no banco com o userLogin
                 res.send(JSON.stringify({ authenticated: true, token: userLogin }))
+
             }
             else {
                 res.send(JSON.stringify({ authenticated: false }))

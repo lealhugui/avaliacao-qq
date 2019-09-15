@@ -19,6 +19,30 @@ const Authentication = {
     }
 }
 
+async function loginRequest(user, password) {
+    console.log(user)
+    var bodyData = JSON.stringify({
+        'login': user,
+        'password': password
+    })
+    // console.log(bodyData)
+    var request = new Request('http://localhost:8080/login', {
+        body: bodyData,
+        method: 'post',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        }
+    });
+    return fetch(request)
+        .then((response) => response.json())
+        .then(function (data) {
+            console.log("DATA", data[Object.keys(data)[0]])
+            // return data[Object.keys(data)[0]]; //return true or false
+            return data
+        })
+}
+
 class Login extends React.Component {
     state = {
         redirect: false,
@@ -26,8 +50,11 @@ class Login extends React.Component {
         password: "",
     }
     login = () => {
-        let user = 'fnunez'
-        if (this.state.user === user) {
+
+        var user = loginRequest(this.state.user, this.state.password)
+        console.log('user', user)
+
+        if (user === true) {
             Authentication.setAuthentication(() => {
                 this.setState(() => ({
                     redirect: true
@@ -35,6 +62,10 @@ class Login extends React.Component {
             })
         }
     }
+
+
+
+
     render() {
         if (this.state.redirect === true) {
             return <Redirect to='/feed' />
@@ -50,7 +81,9 @@ class Login extends React.Component {
                 </div>
 
                 <div>
-                    <input></input>
+                    <input type="text"
+                        value={this.state.value}
+                        onChange={event => this.setState({ password: event.target.value })}></input>
                 </div>
                 <button onClick={this.login}>Log in</button>
             </div >
