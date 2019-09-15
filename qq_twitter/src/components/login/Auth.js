@@ -35,12 +35,7 @@ async function loginRequest(user, password) {
         }
     });
     return fetch(request)
-        .then((response) => response.json())
-        .then(function (data) {
-            console.log("DATA", data[Object.keys(data)[0]])
-            // return data[Object.keys(data)[0]]; //return true or false
-            return data
-        })
+
 }
 
 class Login extends React.Component {
@@ -49,18 +44,23 @@ class Login extends React.Component {
         user: "",
         password: "",
     }
+
     login = () => {
-
+        //Getting the Promise as unresolved
         var user = loginRequest(this.state.user, this.state.password)
-        console.log('user', user)
+        // thisState = this so I can use inside .then in the promise
+        const thisState = this
+        user.then((response) => response.json())
+            .then(function (data) {
+                // console.log("DATA", data.authenticated)
+                // return data[Object.keys(data)[0]]; //return true or false
+                Authentication.setAuthentication(() => {
+                    thisState.setState(() => ({
+                        redirect: data.authenticated
+                    }))
+                })
 
-        if (user === true) {
-            Authentication.setAuthentication(() => {
-                this.setState(() => ({
-                    redirect: true
-                }))
             })
-        }
     }
 
 
