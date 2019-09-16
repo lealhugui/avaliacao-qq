@@ -13,16 +13,15 @@
     flex-direction: column;
     width: 566px;
     height: 170px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-    background-color: #847cb2;
+    box-shadow: 0 2px 4px 0 #ddd;
+    background-color: #ccc;
     margin-left: 25rem;
     margin-bottom: 0.1rem;
     transition: 0.5s background-color
   }
   
   .tweet-box:hover { 
-    background-color: #9891bf;
-    border: #ffffff;
+    background-color: #bbb;
   }
   .tweet-box img{
     opacity: 1;
@@ -34,6 +33,7 @@
     margin-left: 25px;
     margin-top: 17px;
     border-radius: 50%;
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.5);
     width: 55px;
     height: 50px;
   }
@@ -44,14 +44,15 @@
   margin-top: 19px;
   min-width: 85px;
   height: 17px;
+  font-weight: 900;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 15px;
-  font-weight: 500;
+  /* font-weight: 500; */
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
   letter-spacing: -0.6px;
-  color: #ffffff;
+  color: #556270;
   }
   
   
@@ -68,8 +69,12 @@
   font-stretch: normal;
   line-height: normal;
   letter-spacing: -0.6px;
-  color: #28253e;
+  color: #aaa;
   font-weight: bold;
+  transition: 0.3s color
+  }
+  .handle:hover{
+    color: #FF6B6B
   }
   
   .tweet{
@@ -84,5 +89,5 @@
     font-stretch: normal;
     line-height: normal;
     letter-spacing: -0.6px;
-    color: #ffffff;
+    color: #556270;
   }

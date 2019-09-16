@@ -83,35 +83,14 @@ const pool = new Pool({
 // })
 
 app.post(`/login`, function (req, res) {
-
-    const a = JSON.stringify(req.body)
-
-    // console.log("=============", req.body)
-    // res.json({ requestBody: req.body })
-
-    console.log('a', a)
-
-    // const request = req
-
-    // console.log("req", req.body)
-
-    // const a = res.json({ requestBody: req.body })
-
-    // console.log("===", a)
-
     const userLogin = req.body.login
-    // console.log("userLogin", userLogin)
     const userPassword = req.body.password
-
     pool.connect().then(client => {
         client.query(`select * from user_data where login = $1`, [userLogin]).then(result => {
-            // console.log("result", result)
-            // const [a] = result.rows
             const [user] = result.rows
             console.log(user.password)
             // hash
             if (user.password == userPassword) {
-                // cria um token aleatorio, grava no banco com o userLogin
                 res.send(JSON.stringify({ authenticated: true, token: userLogin }))
 
             }

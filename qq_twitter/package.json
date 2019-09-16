@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "cd .././qq_twitter_backend && node Connection.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
