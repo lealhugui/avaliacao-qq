@@ -109,10 +109,59 @@ app.post(`/login`, function (req, res) {
 
 })
 
+app.post(`/follows`, function (req, res) {
+    console.log("req.body", req.body)
+    const userLogin = req.body.login
+    console.log('userLogin', userLogin)
+    // const userPassword = req.body.password
+    pool.connect().then(client => {
+        client.query(`select * from follows where fk_user_data_login = $1`, [userLogin]).then(result => {
+            console.log('result', result)
+            const user = result.rows
+            console.log(user[0].fk_user_data_login_followed)
+            res.send(user)
+
+            client.release()
+            console.log("Returned followed")
+        })
+            .catch(e => {
+                client.release()
+                console.error('query error', e.message, e.stack)
+            })
+    })
+
+})
+
+app.post(`/tweet`, function (req, res) {
+    // console.log("req.body", req.body)
+    const userLogin = req.body.login
+    // console.log('userLogin', userLogin)
+    // const userPassword = req.body.password
+    pool.connect().then(client => {
+        client.query(`select * from tweet where fk_user_data_login = $1`, [userLogin]).then(result => {
+            // console.log('result', result)
+            const user = result.rows
+            console.log(user)
+            res.send(user)
+
+            client.release()
+            console.log("Returned tweets")
+        })
+            .catch(e => {
+                client.release()
+                console.error('query error', e.message, e.stack)
+            })
+    })
+
+})
+
+
+
 var server = app.listen(8080, function () {
     var host = server.address().address
     var port = server.address().port
 
     console.log("Listening at http://%s:%s", host, port)
 })
+
 
