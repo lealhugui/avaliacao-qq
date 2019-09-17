@@ -4,7 +4,6 @@ import {
     BrowserRouter as Router, Route, Redirect, withRouter
 } from 'react-router-dom'
 import Feed from "../feed/Feed"
-import Tweets from "../feed/Feed"
 
 const Authentication = {
     isAuthenticated: false,
@@ -64,7 +63,6 @@ class Login extends React.Component {
                     }))
                 })
             })
-        Tweets(user)
     } //end of login
 
 
