@@ -1,24 +1,7 @@
 // EXPRESS
 const express = require(`express`), Pool = require('pg-pool'), cors = require('cors');
 var bodyParser = require('body-parser')
-
 const app = express()
-// app.use(express.json())
-// app.use(express.urlencoded())
-app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json({ type: 'application/json' }))
-
-// POSTGRES
-// const { Client } = require(`pg`);
-// const client = new Client({
-//     user: "postgres",
-//     password: "entersandman",
-//     host: `localhost`,
-//     port: 5432,
-//     database: `qq_twitter`
-// });
-
 const pool = new Pool({
     user: "postgres",
     password: "entersandman",
@@ -27,72 +10,26 @@ const pool = new Pool({
     database: `qq_twitter`
 })
 
-
-
-// Função para reutilização de codigo da conexão com o db
-// async function connect() {
-//     try {
-//         await client.connect()
-//         console.log("Connection Sucess")
-//     }
-//     catch (e) {
-//         console.error(`Failed Connection ${e}`)
-//     }
-// }
-// Função para reutilização de codigo da disconexão do db
-// async function disconnect() {
-//     try {
-//         await client.end()
-//     }
-//     catch (e) {
-//         console.error(`Failed to disconnect ${e}`)
-//     }
-// }
-
-// async function queryLoginInfo(table, row) {
-//     try {
-//         const result = await client.query(`select * from ${table} where login = $1`, [row])
-//         return result.rows
-//     }
-//     catch (e) {
-//         return []
-//     }
-// }
-
-// async function QueryLoginData(login) {
-//     await connect()
-//     var result = await query(`user_data`, login)
-//     // console.log(result.rows)
-//     await disconnect()
-//     return result
-// }
-
-// var result = QueryLoginData('fnunez')
-// result.then(function (data) {
-//     var x = data.rows[0].login
-//     apiLogRequest(x)
-// })
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json({ type: 'application/json' }))
 
 
 
-// connect()
-// app.get(`/`, async function (req, res) {
-// const rows = await queryLoginInfo('user_data', 'fnunez')
-// res.setHeader('Content-Type', 'application/json');
-// res.send(JSON.stringify(rows))
-// })
 
+//Faz uma chamada post para a rota /login
 app.post(`/login`, function (req, res) {
+    //a requisição é o input do login e da senha
     const userLogin = req.body.login
     const userPassword = req.body.password
     pool.connect().then(client => {
+        //verifica se o login existe na table de usuarios
         client.query(`select * from user_data where login = $1`, [userLogin]).then(result => {
             const [user] = result.rows
-            console.log(user.password)
-            // hash
+            //se o usuario é igual a algum usario da table, verifica se a senha da table é igual ao do input
             if (user.password == userPassword) {
                 res.send(JSON.stringify({ authenticated: true, token: userLogin }))
-
+                //numa versão melhor seria bom ter colocado uma hash em ambas as pontas (segurança etc..)
             }
             else {
                 res.send(JSON.stringify({ authenticated: false }))
@@ -109,20 +46,17 @@ app.post(`/login`, function (req, res) {
 
 })
 
+//Faz uma chamada post para a rota /follows
 app.post(`/follows`, function (req, res) {
-    console.log("req.body", req.body)
+    //a requisição é o usuario logado
     const userLogin = req.body.login
-    console.log('userLogin', userLogin)
-    // const userPassword = req.body.password
     pool.connect().then(client => {
+        //pesquisa quem o usuario logado segue
         client.query(`select * from follows where fk_user_data_login = $1`, [userLogin]).then(result => {
-            console.log('result', result)
             const user = result.rows
-            console.log(user[0].fk_user_data_login_followed)
+            //devolve os usuarios que ele segue
             res.send(user)
-
             client.release()
-            console.log("Returned followed")
         })
             .catch(e => {
                 client.release()
@@ -131,19 +65,17 @@ app.post(`/follows`, function (req, res) {
     })
 
 })
-
+//Faz uma chamada post para a rota /tweet
 app.post(`/tweet`, function (req, res) {
-    // console.log("req.body", req.body)
+    //a requisicao são os usuarios que a pessoa logado segue
     const userLogin = req.body.login
-    // console.log('userLogin', userLogin)
-    // const userPassword = req.body.password
     pool.connect().then(client => {
+        //procurar na planilha de tweets os tweets de cada usuario passado na chamada
         client.query(`select * from tweet where fk_user_data_login = $1`, [userLogin]).then(result => {
-            // console.log('result', result)
             const user = result.rows
             console.log(user)
+            //devolve os tweets
             res.send(user)
-
             client.release()
             console.log("Returned tweets")
         })
@@ -156,7 +88,7 @@ app.post(`/tweet`, function (req, res) {
 })
 
 
-
+//conecta o servidor na porta 8080 no localhost e confirma por console a porta usada.
 var server = app.listen(8080, function () {
     var host = server.address().address
     var port = server.address().port

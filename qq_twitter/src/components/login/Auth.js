@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom'
 import Feed from "../feed/Feed"
 
+
 const Authentication = {
     isAuthenticated: false,
     setAuthentication(cb) {
@@ -25,7 +26,7 @@ async function loginRequest(user, password) {
         'password': password
     })
 
-    // making the post request
+    // fazendo a chamada a post
     const request = new Request('http://localhost:8080/login', {
         body: bodyData,
         method: 'post',
@@ -46,14 +47,14 @@ class Login extends React.Component {
     }
 
     login = () => {
-        //Getting the Promise as unresolved
+        //Pegando a promise como unresolved
         var requestPromise = loginRequest(this.state.user, this.state.password)
 
 
-        // thisState = this so I can use inside .then in the promise
+        // thisState = this assim posso usar o estado atual dentro da resolução da promise
         const thisState = this
 
-        // resolving the promise
+        // resolvendo a promise
         requestPromise
             .then((response) => response.json())
             .then(function (data) {
@@ -63,7 +64,7 @@ class Login extends React.Component {
                     }))
                 })
             })
-    } //end of login
+    } //fim login
 
 
 
