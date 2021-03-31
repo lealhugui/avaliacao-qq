@@ -1,34 +1,53 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UsuarioService } from './usuario.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Logger,
+  Param,
+  Patch,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { Usuario } from './entities/usuario.entity';
+import { UsuarioService } from './usuario.service';
 
-@Controller('usuario')
+@Controller('api/v1/usuario')
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
   @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
+  @UsePipes(ValidationPipe)
+  create(@Body() createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
     return this.usuarioService.create(createUsuarioDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Usuario[]> {
     return this.usuarioService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get('/:id')
+  @UsePipes(ValidationPipe)
+  findOne(@Param('id') id: number): Promise<Usuario> {
     return this.usuarioService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+  @Patch('/:id')
+  @UsePipes(ValidationPipe)
+  update(
+    @Param('id') id: number,
+    @Body() updateUsuarioDto: UpdateUsuarioDto,
+  ): Promise<Usuario> {
     return this.usuarioService.update(+id, updateUsuarioDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete('/:id')
+  @UsePipes(ValidationPipe)
+  remove(@Param('id') id: number): Promise<boolean> {
     return this.usuarioService.remove(+id);
   }
 }

@@ -5,6 +5,7 @@
   "username": "root",
   "password": "Gvbrs101",
   "database": "qq_twitter",
+  "logging": false,
   "synchronize": true,
   "entities": [
     "dist/**/*.entity{.ts,.js}"

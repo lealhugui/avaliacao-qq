@@ -8,6 +8,6 @@ import { SeguidoresService } from './seguidores.service';
   imports: [TypeOrmModule.forFeature([Seguidore])],
   controllers: [SeguidoresController],
   providers: [SeguidoresService],
-  exports: [TypeOrmModule, SeguidoresService]
+  exports: [TypeOrmModule, SeguidoresService],
 })
-export class SeguidoresModule { }
+export class SeguidoresModule {}

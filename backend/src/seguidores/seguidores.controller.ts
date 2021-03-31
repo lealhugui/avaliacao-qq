@@ -1,15 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SeguidoresService } from './seguidores.service';
-import { CreateSeguidoreDto } from './dto/create-seguidore.dto';
+import { Body, Controller, Delete, Get, Param, Put } from '@nestjs/common';
 import { UpdateSeguidoreDto } from './dto/update-seguidore.dto';
+import { SeguidoresService } from './seguidores.service';
 
-@Controller('seguidores')
+@Controller('api/v1/seguidores')
 export class SeguidoresController {
   constructor(private readonly seguidoresService: SeguidoresService) {}
 
-  @Post()
-  create(@Body() createSeguidoreDto: CreateSeguidoreDto) {
-    return this.seguidoresService.create(createSeguidoreDto);
+  @Put('/seguir/:id_usuario')
+  seguir(
+    @Param('id_usuario') id_usuario: string,
+    @Body() updateSeguidoreDto: UpdateSeguidoreDto,
+  ) {
+    return this.seguidoresService.seguir(+id_usuario, updateSeguidoreDto);
+  }
+
+  @Put('deixar_de_seguir/:id_usuario')
+  deixar_de_seguir(
+    @Param('id_usuario') id_usuario: string,
+    @Body() updateSeguidoreDto: UpdateSeguidoreDto,
+  ) {
+    return this.seguidoresService.deixar_de_seguir(
+      +id_usuario,
+      updateSeguidoreDto,
+    );
   }
 
   @Get()
@@ -17,14 +30,9 @@ export class SeguidoresController {
     return this.seguidoresService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.seguidoresService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSeguidoreDto: UpdateSeguidoreDto) {
-    return this.seguidoresService.update(+id, updateSeguidoreDto);
+  @Get('/:id_usuario')
+  findOne(@Param('id_usuario') id_usuario: number) {
+    return this.seguidoresService.findOne(+id_usuario);
   }
 
   @Delete(':id')

@@ -1,24 +1,24 @@
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Seguidore } from './../../seguidores/entities/seguidore.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Tweet } from './../../tweet/entities/tweet.entity';
 
 @Entity()
 export class Usuario {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column()
-  nome: string
+  nome: string;
 
   @Column()
-  email: string
+  email: string;
 
   @Column()
-  pass: string
+  pass: string;
 
-  @OneToOne(type => Seguidore, seguidor => seguidor.usuario)
-  seguidor: Seguidore
-
-  @OneToMany(type => Tweet, tweet => tweet.usuario)
-  tweet: Tweet[]
+  @OneToMany(
+    type => Tweet,
+    tweet => tweet.usuario,
+    { eager: true },
+  )
+  tweet: Tweet[];
 }

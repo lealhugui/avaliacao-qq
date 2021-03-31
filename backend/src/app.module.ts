@@ -9,10 +9,22 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { UsuarioController } from './usuario/usuario.controller';
 import { TweetModule } from './tweet/tweet.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), UsuarioModule, TweetModule, SeguidoresModule],
-  controllers: [AppController, UsuarioController, TweetController, SeguidoresController],
+  imports: [
+    TypeOrmModule.forRoot(),
+    UsuarioModule,
+    TweetModule,
+    SeguidoresModule,
+    AuthModule,
+  ],
+  controllers: [
+    AppController,
+    UsuarioController,
+    TweetController,
+    SeguidoresController,
+  ],
   providers: [AppService, SeguidoresService],
 })
-export class AppModule { }
+export class AppModule {}

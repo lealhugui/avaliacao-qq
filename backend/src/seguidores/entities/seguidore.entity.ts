@@ -1,14 +1,13 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Usuario } from './../../usuario/entities/usuario.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Seguidore {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
-  @OneToOne(type => Usuario, usuario => usuario.seguidor)
-  usuario: Usuario
+  @Column()
+  usuario_id: number;
 
-  @Column('simple-array')
-  lst_usuarios_seguidos: number[]
+  @Column('simple-json')
+  lst_usuarios_seguidos: number[];
 }

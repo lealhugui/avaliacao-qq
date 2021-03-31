@@ -1,16 +1,26 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Usuario } from './../../usuario/entities/usuario.entity';
 
 @Entity()
 export class Tweet {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
-  @ManyToOne(type => Usuario, author => author.tweet)
+  @ManyToOne(
+    type => Usuario,
+    usuario => usuario.tweet
+  )
+  @JoinColumn()
   usuario: Usuario;
 
   @Column({
-    length: 140
+    length: 140,
   })
-  texto: string
+  texto: string;
 }
